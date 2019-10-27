@@ -37,6 +37,27 @@ router.get('/find', (req, res) => {
             return;
         })
 })
+router.get('/lists',(req, res) => {
+    userRepository.lists()
+        .then((doc) => {
+            if(!doc) res.send('No hay user');
+            else{
+                res.send(doc);
+            }
+        })
+})
+
+router.post('/delete',(req, res) => {
+    let id = req.query.id;
+    userRepository.deleteUser(id)
+        .then((response) => {
+            if(!response) res.send('No hay user con ese id')
+            else {
+                res.send('Eliminado correcto').sendStatus(200);
+            }
+        })
+        .catch(() => res.sendStatus(500))
+})
 
 
 module.exports = router;

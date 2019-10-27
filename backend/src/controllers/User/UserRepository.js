@@ -40,9 +40,36 @@ function findById(uid){
     })
 }
 
+function find(){
+    return new Promise((resolve, reject) => {
+        userModel.find()
+            .then(doc => resolve(doc))
+            .catch(err => {
+                console.error(`[UserList] ${err}`);
+                reject();
+            })
+    })
+}
+
+function deleteUser(uid){
+    return new Promise((resolve, reject) => {
+        userModel
+            .findOneAndRemove({
+                id: uid
+            })
+            .then(response => resolve(response))
+            .catch(err => {
+                console.error(`[DeleteUser] ${err}`);
+                reject();
+            })
+    })
+}
+
 
 
 module.exports = {
     addUser,
-    findById
+    findById,
+    lists: find,
+    deleteUser
 }
