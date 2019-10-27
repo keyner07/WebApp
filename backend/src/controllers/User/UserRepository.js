@@ -24,8 +24,25 @@ function addUser(user) {
     })
 }
 
+function findById(uid){
+    return new Promise((resolve, reject) => {
+        userModel
+            .find({
+                id: uid
+            })
+            .then(doc => {
+                resolve(doc);
+            })
+            .catch(err => {
+                console.error(`[UserFinById] ${err}`);
+                reject();
+            })
+    })
+}
+
 
 
 module.exports = {
-    addUser
+    addUser,
+    findById
 }
