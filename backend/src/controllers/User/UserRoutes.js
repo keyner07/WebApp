@@ -3,16 +3,16 @@ const router = express.Router();
 const userRepository = require('../User/UserRepository');
 const User = require('./User').User;
 
-router.post('/singUp', (req, res) => {
+router.post('/signUp', (req, res) => {
     let today = new Date();
     let registerUser = new User(req.body.id, req.body.name, req.body.email, req.body.password, today, today);
     userRepository.addUser(registerUser)
         .then((doc) => {
-            res.send(`Su id es ${doc.id}`).sendStatus(201);
+            res.status(201).send(`Su id es ${doc.id}`);
             return;
         })
         .catch(() => {
-            res.send('Ha ocurrido un error').sendStatus(500);
+            res.status(500).send('Ha ocurrido un error');
             return;
         })
 })
@@ -21,28 +21,28 @@ router.get('/find', (req, res) => {
     let id = req.query.id;
     userRepository.findById(id)
         .then((doc) => {
-            if(!doc.id){
-                res.sendStatus(404);
-                // res.send('No se ha encontrado')
+            // if(!doc){
+            //     res.status(404).send('No se encontro ese usuario');
+            //     // res.send('No se ha encontrado')
+            //     return;
+            // }
+            // else{
+                res.status(200).send(doc);
                 return;
-            }
-            else{
-                res.send(doc).sendStatus(200);
-                return;
-            }
+            // }
         })
         .catch((err) => {
-            res.sendStatus(500);
+            res.status(500).send('Ocurrio un error');
             // res.send('Ocurrio un error')
             return;
         })
 })
-router.get('/lists',(req, res) => {
+router.get('/:id/lists',(req, res) => {
     userRepository.lists()
         .then((doc) => {
-            if(!doc) res.send('No hay user');
+            if(!doc) res.status(404).send('No hay user');
             else{
-                res.send(doc);
+                res.status(200).send(doc);
             }
         })
 })
@@ -51,12 +51,22 @@ router.post('/delete',(req, res) => {
     let id = req.query.id;
     userRepository.deleteUser(id)
         .then((response) => {
-            if(!response) res.send('No hay user con ese id')
+            if(!response) res.status(404).send('No hay user con ese id')
             else {
-                res.send('Eliminado correcto').sendStatus(200);
+                res.status(200).send('Eliminado correcto');
             }
         })
-        .catch(() => res.sendStatus(500))
+        .catch(() => res.status(500).send('Ocurrio un error, intentelo mas tarde'))
+})
+
+router.post('/login', (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+    userRepository.login(email, password)
+        .then((response) => {
+            if(!response) res.status(404).send('Usuario o contraseña incorrecta')
+            res.status(200).send(`Se ha logueado correctamente. Su id es ${response.id}`);
+        })
 })
 
 

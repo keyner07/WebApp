@@ -65,11 +65,28 @@ function deleteUser(uid){
     })
 }
 
+function signIn(emailUser, passwordUser){
+    return new Promise((resolve, reject) => {
+        userModel
+            .findOne({
+                email: emailUser,
+                password: passwordUser
+            })
+            .then(response => resolve(response))
+            .catch(err => {
+                console.error(`[SignIn] ${err}`)
+                reject();
+            })
+
+    })
+}
+
 
 
 module.exports = {
     addUser,
     findById,
     lists: find,
-    deleteUser
+    deleteUser,
+    login: signIn
 }

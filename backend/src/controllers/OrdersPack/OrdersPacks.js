@@ -1,6 +1,11 @@
-class OrderPack {
-    constructor(owner, expirationDate){
+const Entity = require('../Entity').Entity;
+
+class OrdersPack extends Entity {
+    constructor(uid,title,owner,createdAt, expirationDate){
+        super(uid,createdAt, expirationDate)
+        this.title = title;
         this.owner = owner;
-        this.expirationDate = expirationDate;
     }
 }
+
+module.exports.OrdersPack = OrdersPack;
