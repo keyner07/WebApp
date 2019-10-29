@@ -1,4 +1,3 @@
-const db = require('../../database').Database;
 const userModel = require('../../models/UserModel');
 const mongoose = require('mongoose');
 
@@ -14,7 +13,6 @@ function addUser(user) {
           })
           registerUser.save()
             .then(doc => {
-                // console.log(doc);
                 resolve(doc);
             }).catch( err => {
                 console.error(`[UserRepository] ${err}`);
@@ -27,7 +25,7 @@ function addUser(user) {
 function findById(uid){
     return new Promise((resolve, reject) => {
         userModel
-            .find({
+            .findOne({
                 id: uid
             })
             .then(doc => {
