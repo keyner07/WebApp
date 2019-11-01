@@ -1,11 +1,12 @@
-const ordersPackModel = require('../../models/OrdersPackModel');
+const ordersPackModel = require('../../models/OrderModel');
 const mongoose = require('mongoose');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 //Buscar lista de ordenes por uid
 function findById(uid){
     return new Promise((resolve, reject) => {
         ordersPackModel.findOne({
-            id: uid
+            _id: uid
         })
         .then(doc => resolve(doc))
         .catch(err => {
@@ -31,10 +32,10 @@ function find() {
 function addOrderPack(OrdersPack){
     return new Promise((resolve, reject) => {
         let registerOrdersPack = new ordersPackModel({
-            owner: OrdersPack.owner,
+            owner: ObjectId(OrdersPack.owner),
             title: OrdersPack.title,
             createdAt: OrdersPack.createdAt,
-            expirationDate: OrdersPack.expirationDate
+            expirationDate: OrdersPack.updateAt
         })
         registerOrdersPack.save()
             .then(doc => resolve(doc))
@@ -46,16 +47,17 @@ function addOrderPack(OrdersPack){
 }
 
 //Borrar una lista de ordenes como parametros id
-function deleteOrderPack(uid){
+function deleteOrderPack(uid, idOwner){
     return new Promise((resolve, reject) => {
         ordersPackModel
             .findOneAndRemove({
-                id: uid
+                _id: uid,
+                owner: idOwner
             })
             .then(doc => resolve(doc))
             .catch(err => {
                 console.error(`[DeleteOrderPack] ${err}`)
-                reject();
+                reject(err);
             })
     })
 }

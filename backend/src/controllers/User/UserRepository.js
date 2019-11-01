@@ -1,5 +1,5 @@
 const userModel = require('../../models/UserModel');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose').Schema.Types.ObjectId;
 
 function addUser(user) {
     return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ function findById(uid){
     return new Promise((resolve, reject) => {
         userModel
             .findOne({
-                id: uid
+                _id: ObjectId(uid)
             })
             .then(doc => {
                 resolve(doc);

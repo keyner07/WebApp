@@ -1,6 +1,5 @@
 class Order {
-    constructor(uid,owner, productName, size, flavor, price, paymentMethod, payed){
-        this.uid = uid;
+    constructor(owner, productName, size, flavor, price, paymentMethod, payed){
         this.owner = owner;
         this.productName = productName;
         this.size = size;

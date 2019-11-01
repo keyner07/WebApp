@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userRepository = require('../User/UserRepository');
 const User = require('./User').User;
-const OrdersPack = require('../OrdersPack/OrdersPack').OrdersPack;
+const OrdersPack = require('../OrdersPack/OrderPack').OrdersPack;
 const OrdersPackRepository = require('../OrdersPack/OrdersPackRepository');
 const Order = require('../Order/Order').Order;
 const OrderRepository = require('../Order/OrderRepository');
@@ -78,10 +78,11 @@ router.post('/login', (req, res) => {
 //Creacion de lista de ordenes
 router.post('/:id/Order', (req, res) => {
     let today = new Date();
+    // title,owner,createdAt, expirationDate
     let registerOrdersPack = new OrdersPack(req.body.title,req.params.id, today, req.body.expirationDate);
     OrdersPackRepository.addOrderPack(registerOrdersPack)
         .then((doc) => {
-            res.status(201).send(`Su id es ${doc.id}`);
+            res.status(201).send(`El id de la lista de la orden es ${doc.id}`);
             return;
         })
         .catch(() => {
@@ -119,9 +120,20 @@ router.delete('/:id/deleteOrder', (req, res) => {
             res.status(500).send('Ha ocurrido un error');
         })
 })
-
-router.post('/klk', (req, res) => {
-    OrderRepository.deleteOrderByOwner(req.body.idOwner, req.body.id)
+//Eliminar lista de ordenes
+router.delete('/:id/OrderPack', (req, res) => {
+    OrdersPackRepository.deleteOrderPack(req.query.idOrder,req.params.id)
+            .then((doc) => {
+                if(!doc){
+                    res.status(404).send('No fue encontrado')
+                }
+                else{
+                    res.status(200).send(doc)
+                }
+            })
+            .catch((err) => {
+                res.status(500).send(err);
+            })
 })
 
 module.exports = router;
