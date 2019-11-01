@@ -1,6 +1,5 @@
 class Entity {
-    constructor(uid, createdAt, updateAt){
-        this.uid = uid;
+    constructor(createdAt, updateAt){
         this.createdAt = createdAt;
         this.updateAt = updateAt;
     }
