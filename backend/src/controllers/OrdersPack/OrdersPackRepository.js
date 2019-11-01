@@ -1,7 +1,7 @@
 const ordersPackModel = require('../../models/OrdersPackModel');
 const mongoose = require('mongoose');
 
-
+//Buscar lista de ordenes por uid
 function findById(uid){
     return new Promise((resolve, reject) => {
         ordersPackModel.findOne({
@@ -14,6 +14,8 @@ function findById(uid){
         })
     })
 }
+
+//Buscar todas las listas de ordenes
 function find() {
     return new Promise((resolve, reject) => {
         ordersPackModel.find()
@@ -25,10 +27,10 @@ function find() {
     })
 }
 
+// Crear una lista de ordenes
 function addOrderPack(OrdersPack){
     return new Promise((resolve, reject) => {
         let registerOrdersPack = new ordersPackModel({
-            id: OrdersPack.uid,
             owner: OrdersPack.owner,
             title: OrdersPack.title,
             createdAt: OrdersPack.createdAt,
@@ -43,6 +45,7 @@ function addOrderPack(OrdersPack){
     })
 }
 
+//Borrar una lista de ordenes como parametros id
 function deleteOrderPack(uid){
     return new Promise((resolve, reject) => {
         ordersPackModel
@@ -57,16 +60,6 @@ function deleteOrderPack(uid){
     })
 }
 
-function expirationDate(min){
-    let date = new Date.now;
-    if(min > 60){
-        date.setHours(date.getHours() + 1)
-    }
-    date.setDate(date.getDate() + 1);
-    date.setHours(23);
-    date.setMinutes(59);
-    date.setSeconds(59);
-}
 
 module.exports = {
         addOrderPack,

@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 function addUser(user) {
     return new Promise((resolve, reject) => {
         let registerUser = new userModel({  
-            id: user.uid,
             name: user.name,
             email: user.email,
             password: user.password,
