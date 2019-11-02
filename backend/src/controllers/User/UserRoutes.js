@@ -135,5 +135,35 @@ router.delete('/:id/OrderPack', (req, res) => {
                 res.status(500).send(err);
             })
 })
+//Crear orden en la lista
+router.post('/:id/OrderList/:idOrder', (req, res) => {
+    let createOrderList = new Order(req.params.id, req.body.productName, req.body.size, req.body.flavor, req.body.price, req.body.paymentMethod, req.body.payed);
+    OrderRepository.addOrderList(req.params.idOrder,createOrderList)
+            .then((doc) => {
+                if(!doc){
+                    res.status(404).send('No fue encontrado')
+                }
+                else{
+                    res.status(200).send('Fue creada su orden')
+                }
+            })
+            .catch(() => res.status(500).send('Ha ocurrido un error'));
+})
+
+// Ver todas las ordenes
+router.get('/:id/OrderList', (req, res) => {
+    OrderRepository.list()
+        .then((doc) => {
+            if(!doc){
+                res.status(404).send('No hay')
+            }
+            else{
+                res.status(200).send(doc)
+            }
+        })
+        .catch(() => {
+            res.status(500).send('Ha ocurrido un error')
+        })
+})
 
 module.exports = router;
