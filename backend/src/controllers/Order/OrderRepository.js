@@ -23,7 +23,7 @@ function addOrderList(idOrder, Order){
         
     })
 }
-
+//Mostrar todas las ordenes
 async function list(){
     var  getAll = await ordersListModel.find()
     return new Promise((resolve, reject) => {
@@ -32,8 +32,43 @@ async function list(){
 
 }
 
+//Eliminar por id
+async function deleteById(idUser){
+    var deletedUser = await ordersListModel.findByIdAndRemove(idUser)
+    return new Promise((resolve, reject) => {
+        if(!deletedUser){
+            reject();
+        }
+        else{
+            resolve(deletedUser);
+        }
+    })
+}
+//Actualizar la orden
+function updateById(req, res, next) {
+    return new Promise((resolve, reject) => {
+        ordersListModel.findByIdAndUpdate(req.params.orderId,{
+                                productName: req.body.productName, 
+                                size: req.body.size, 
+                                flavour: req.body.flavour,
+                                price: req.body.price,
+                                paymentMethod: req.body.paymentMethod,
+                                payed: req.body.payed,
+                                ownerId: req.body.ownerId,
+                                ordersPack: req.body.ordersPack
+        })
+        .then((doc) => resolve(doc) )
+        .catch((err) => {
+            console.error(`[updateById] ${err}`);
+            reject();
+        })
+
+    })
+}
 
 module.exports = {
     addOrderList,
-    list
+    list,
+    deleteById,
+    updateById
 }

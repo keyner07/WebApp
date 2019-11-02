@@ -166,4 +166,18 @@ router.get('/:id/OrderList', (req, res) => {
         })
 })
 
+//Actualizar la orden
+router.get('/:id/OrderList',(req, res) => {
+    OrderRepository.updateById(req,res)
+        .then((doc) =>{
+            if(!doc){
+                res.status(404).send('No fue encontrado')
+            }
+            else{
+                res.status(200).send(doc)
+            }
+        })
+        .catch(() => res.status(500).send('Ha ocurrido un error'))
+})
+
 module.exports = router;
