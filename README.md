@@ -13,8 +13,9 @@
 ## Table of Contents
 
 * [🚀 Environment setup](#-environment-setup)
-* [🤔 Project explanation](#-project-explanation)
-  * [Examples](#-examples)
+	* [Herramientas a necesitar](#-herramientas-a-necesitar)
+* [🤔 Explicacion del proyecto](#-project-explanation)
+  * [Ejemplos](#-examples)
 
 ## 🚀 Environment setup
 
@@ -28,4 +29,8 @@
 ## 🤔 Explicacion del proyecto
 
 Este proyecto ha sido hecho para satifacer la necesidades de una asignatura. Es una api para creacion de lista de helados para una empresa mediana o grande. El lenguaje para el backend fue: Nodejs(Javascript) con Express y la base de datos fue MongoDb.
+
+
+### Ejemplos
+Para la creacion de un usuario, se le debe pasar el nombre, email y password al hacer eso la api te devolvera el id que ha generado.
 
