@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const emailEnv = require('./EmailEnv');
+
 var transporter = nodemailer.createTransport({
     host: 'smtp-mail.outlook.com',
     secureConnection: false, // TLS requires secureConnection to be false
@@ -7,8 +9,8 @@ var transporter = nodemailer.createTransport({
        ciphers:'SSLv3'
     },
     auth: {
-        user: 'skerling19@hotmail.com',
-        pass: 'michelle07'
+        user: emailEnv.user,
+        pass: emailEnv.user
     }
 });
 function sendMail(ToEmail){
